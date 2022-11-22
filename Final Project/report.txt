@@ -1,0 +1,12 @@
+Students (Sorted by gpa)
+
+	1. Julia Alvarez
+	ID: ju1254
+	Gpa: 3.26
+	Credit hours: 7
+
+	2. Matt Jones
+	ID: ma0258
+	Gpa: 2.78
+	Credit hours: 0
+
