@@ -2,7 +2,7 @@
 class Student extends Person implements Comparable<Student>{
     private float gpa;
     private int creditHour;
-    private int sortedBy;
+    private static int sortedBy;
 
     public Student(String fullName, String id, float gpa, int creditHour) {
         super(fullName, id);
@@ -22,12 +22,12 @@ class Student extends Person implements Comparable<Student>{
         System.out.println("     " + super.getFullName() + "         " + super.getId() + "\n");
         System.out.println("     Credit Hours: " + creditHour + "       ($236.45/credit hour) \n");
         System.out.println("     Fees: $52 \n");
-        System.out.println("     Total payment: $" + payment + "     ($" + (int) discount + " discount applied)\n");
+        System.out.println(String.format("     Total payment: $%.02f     ($%d discount applied)\n", payment, (int) discount));
         System.out.println("     -------------------------------------------------------");
     }
 
-    public void setSortedBy(int sortedBy) {
-        this.sortedBy = sortedBy;
+    public static void setSortedBy(int sortedBy) {
+        Student.sortedBy = sortedBy;
     }
 
     public float getGpa() {

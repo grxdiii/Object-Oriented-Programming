@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 // abstract class for a person
 abstract class Person {
     private String fullName;
@@ -18,10 +16,6 @@ abstract class Person {
 
     public String getId() {
         return id;
-    }
-
-    public String getType() {
-        return type;
     }
 
     public void setType(String type) {
