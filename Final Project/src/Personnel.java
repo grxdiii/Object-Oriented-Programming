@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Scanner;
 
 // class for personnel
-class Personnel implements Management{
+class Personnel implements Management {
     private ArrayList<Faculty> faculties;
     private ArrayList <Staff> staff;
     private ArrayList <Student> students;
