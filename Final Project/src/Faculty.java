@@ -17,4 +17,5 @@ class Faculty extends Employee {
         System.out.println("     " + super.getDepartment() + " Department, " + rank + "\n");
         System.out.println("     -------------------------------------------------------");
     }
+
 }

@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 // abstract class for a person
 abstract class Person {
     private String fullName;

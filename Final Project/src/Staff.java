@@ -1,6 +1,7 @@
 // class for staff objects
 class Staff extends Employee {
     private String status;
+
     public Staff(String fullName, String id, String department, String status) {
         super(fullName, id, department);
         super.setType("Staff");
