@@ -1,3 +1,5 @@
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 public interface Management {
@@ -14,20 +16,57 @@ public interface Management {
         System.out.println("7- Exit Program\n");
 
         // prompts the user to make a selection
-        System.out.print("     Enter your selection: ");
+        System.out.print("\tEnter your selection: ");
     }
 
-    // checks if the user input the right department, rank, and status
-    default String checkData(Scanner myScan, String input, String inputType, int lowIndex, int highIndex) {
-        if(lowIndex == 4) input = input.toUpperCase();
-        else input = input.substring(0,1).toUpperCase() + input.substring(1);
+    default String checkData(Scanner myScan, String input, String inputType, String type, int lowIndex, int highIndex) {
+        if(inputType.equals("Rank") || inputType.equals("Department") || inputType.equals("Status")) {
+            if (lowIndex == 5) input = input.toUpperCase();
+            else input = input.substring(0, 1).toUpperCase() + input.substring(1);
 
-        while(!(input.equals(keyWords[lowIndex]) || input.equals(keyWords[highIndex - 1]) || input.equals(keyWords[highIndex]))) {
-            System.out.println("          \"" + input + "\" is invalid");
-            System.out.print("     " + inputType + ": "); input = myScan.nextLine();
-            if(lowIndex == 4) input = input.substring(0,1).toUpperCase();
-            else input = input.substring(0,1).toUpperCase() + input.substring(1);
+            while (!(input.equals(keyWords[lowIndex]) || input.equals(keyWords[highIndex - 1]) || input.equals(keyWords[highIndex]))) {
+                inputPrompt(type, "invalid input", input);
+                System.out.print("\t" + inputType + ": "); input = myScan.nextLine();
+                if (lowIndex == 4) input = input.substring(0, 1).toUpperCase();
+                else input = input.substring(0, 1).toUpperCase() + input.substring(1);
+            }
+
+        } else if(inputType.equals("Name")) {
+            while(!(input.matches("[a-zA-Z\s]+")) || input.length() == 0 || input.matches("[\s]+")) {
+                inputPrompt(null, "invalid input", input);
+                inputPrompt(type, "name", null); input = myScan.nextLine();
+            }
+
+        } else if(inputType.equals("Id")){
+            boolean exit = false; while(!exit) {
+                try {
+                    IdException.checkFormat(input); exit = true;
+                } catch (IdException e) {
+                    System.out.println(e.getMessage());
+                    inputPrompt(type, "id", null); input = myScan.nextLine();
+                }
+            }
         }   return input;
+    }
+
+    default void inputPrompt(String type, String key, String input){
+        if(key.equals("name")) {
+            if (!type.equals("Staff")) System.out.print("\tName of the " + type + ": ");
+            else System.out.print("\tName of the " + type + " member: ");
+
+        } else if(key.equals("id")) {
+            if(!type.equals("Staff")) System.out.print("\tID: ");
+            else System.out.print("\tEnter the id: ");
+        }
+
+        else if(key.equals("department")) System.out.print("\tDepartment: ");
+        else if(key.equals("status")) System.out.print("\tStatus, Enter P for Part Time, or Enter F for Full Time: ");
+        else if(key.equals("rank")) System.out.print("\tRank: ");
+        else if(key.equals("gpa")) System.out.print("\tGPA: ");
+        else if(key.equals("credit hours")) System.out.print("\tCredit hours: ");
+        else if(key.equals("sorted by")) System.out.print("Would you like to sort your students by (1) gpa or (2) credit hours: ");
+        else if(key.equals("invalid input")) System.out.println("\t\t\"" + input + "\" is invalid");
+        else if(key.equals("invalid entry")) System.out.print("Invalid entry - please try again: ");
     }
 
     default float catchFloatException(String input, Scanner myScan){
@@ -36,8 +75,8 @@ public interface Management {
                 gpa = Float.parseFloat(input);
                 if(gpa < 0 || gpa > 4) throw new Exception();
             } catch (Exception e) {
-                System.out.println("          \"" + input + "\" is invalid");
-                System.out.print("     GPA: "); input = myScan.nextLine();
+                inputPrompt(null, "invalid input", input);
+                inputPrompt(null, "gpa", input); input = myScan.nextLine();
             }
         }   return gpa;
     }
@@ -46,11 +85,18 @@ public interface Management {
         int creditHours = -1; while(creditHours < 0) {
             try {
                 creditHours = Integer.parseInt(input);
+                if(creditHours < 0) throw new Exception();
             } catch (Exception e) {
-                System.out.println("          \"" + input + "\" is invalid");
-                System.out.print("     Credit hours: "); input = myScan.nextLine();
+                inputPrompt(null, "invalid input", input);
+                inputPrompt(null, "credit hours", input); input = myScan.nextLine();
             }
         }   return creditHours;
+    }
+
+    default String currentDate(){
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        return simpleDateFormat.format(date) + "\n";
     }
 
     void createReport(Scanner myScan, String input);

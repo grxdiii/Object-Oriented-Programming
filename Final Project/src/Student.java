@@ -17,13 +17,13 @@ class Student extends Person implements Comparable<Student>{
         float discount = payment;
         if(gpa > 3.85) payment = (float) (payment * 0.75);
         discount = discount - payment;
-        System.out.println("\n     Here is the tuition invoice for " + super.getFullName() + ":\n");
-        System.out.println("     ------------------------------------------------------- \n");
-        System.out.println("     " + super.getFullName() + "         " + super.getId() + "\n");
-        System.out.println("     Credit Hours: " + creditHour + "       ($236.45/credit hour) \n");
-        System.out.println("     Fees: $52 \n");
-        System.out.println(String.format("     Total payment: $%.02f     ($%d discount applied)\n", payment, (int) discount));
-        System.out.println("     -------------------------------------------------------");
+        System.out.println("\n\tHere is the tuition invoice for " + super.getFullName() + ":\n");
+        System.out.println("\t-------------------------------------------------------");
+        System.out.println("\t" + super.getFullName() + "         " + super.getId());
+        System.out.println("\t" + "Credit Hours: " + creditHour + "       ($236.45/credit hour)");
+        System.out.println("\t" + "Fees: $52\n");
+        System.out.println(String.format("\tTotal payment: $%.02f     ($%d discount applied)", payment, (int) discount));
+        System.out.println("\t-------------------------------------------------------");
     }
 
     public static void setSortedBy(int sortedBy) {

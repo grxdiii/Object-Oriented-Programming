@@ -1,5 +1,6 @@
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -16,16 +17,19 @@ class Personnel implements Management{
         this.students = new ArrayList<>();
     }
 
-    private boolean addPersonnel(Faculty f) {
-        return this.faculties.add(f);
+    private void addPersonnel(Faculty f) {
+        this.faculties.add(f);
+        System.out.println("\nFaculty added!\n");
     }
 
-    private boolean addPersonnel(Staff s){
-        return this.staff.add(s);
+    private void addPersonnel(Staff s){
+        this.staff.add(s);
+        System.out.println("\nStaff member added!\n");
     }
 
-    private boolean addPersonnel(Student s){
-        return this.students.add(s);
+    private void addPersonnel(Student s){
+        this.students.add(s);
+        System.out.println("\nStudent added!\n");
     }
 
     private Faculty searchFaculty(String id)
@@ -93,7 +97,7 @@ class Personnel implements Management{
     }
 
     private void print(PrintWriter printWriter, int sortedBy){
-        printWriter.println("Report created on ");
+        printWriter.println("Report created on " + currentDate());
         if(!this.faculties.isEmpty()) printFaculties(printWriter);
         if(!this.staff.isEmpty()) printStaff(printWriter);
         if(!this.students.isEmpty()) printStudent(printWriter, sortedBy);
@@ -106,12 +110,12 @@ class Personnel implements Management{
         input = myScan.nextLine();
 
         while(!(input.equals("1") || input.equals("2"))) {
-            System.out.print("Invalid entry - please try again: ");
+            inputPrompt(null, "invalid entry", null);
             input = myScan.nextLine();
         } try {
             printWriter = new PrintWriter("report.txt");
             print(printWriter, Integer.parseInt(input));
-            System.out.println("Report created and saved on your hard drive!");
+            System.out.println("Report created and saved on your hard drive!\n");
         } catch (FileNotFoundException e) {
             System.out.println("Could not create nor find the file...");
         }
@@ -121,59 +125,54 @@ class Personnel implements Management{
 
     @Override
     public void printInfo(Scanner myScan, String type) {
-        String id; Person person; System.out.print("\n     Enter the " + type.toLowerCase() + "'s id: ");
+        String id; Person person; System.out.print("\n\tEnter the " + type.toLowerCase() + "'s id: ");
         id = myScan.nextLine(); person = search(id, type);
-        if(person == null && !type.equals("Staff")) System.out.println("\n     No " + type.toLowerCase() + " matched!");
-        else if(person == null) System.out.println("\n     No " + type.toLowerCase() + " member matched!");
+        if(person == null && !type.equals("Staff")) System.out.println("\n\tNo " + type.toLowerCase() + " matched!");
+        else if(person == null) System.out.println("\n\tNo " + type.toLowerCase() + " member matched!");
         else person.print(); System.out.println();
     }
 
+    // store faculty information
     private void storeFaculty(String name, String id, Scanner myScan){
         String department, rank;
-
-        System.out.print("     Rank: "); rank = myScan.nextLine();
-        rank = checkData(myScan, rank, "Rank", 0, 1);
-        System.out.print("     Department: "); department = myScan.nextLine();
-        department = checkData(myScan, department, "Department", 2, 4);
-        Faculty faculty = new Faculty(name, id, department, rank);
-        if(addPersonnel(faculty)) System.out.println("\nFaculty added!\n");
+        inputPrompt(null, "rank", null);
+        rank = checkData(myScan, myScan.nextLine(), "Rank", null,0, 1);
+        inputPrompt(null, "department", null);
+        department = checkData(myScan, myScan.nextLine(), "Department", null, 2, 4);
+        addPersonnel(new Faculty(name, id, department, rank));
     }
 
-
+    // store student information
     private void storeStudent(String name, String id, Scanner myScan){
         float gpa; int creditHours;
-
-        System.out.print("     GPA: ");
-        gpa = catchFloatException(myScan.nextLine(), myScan);
-
-        System.out.print("     Credit hours: ");
-        creditHours = catchIntException(myScan.nextLine(), myScan);
-
-        Student student = new Student(name, id, gpa, creditHours);
-        if(addPersonnel(student)) System.out.println("\nStudent added!\n");
+        inputPrompt(null, "gpa", null); gpa = catchFloatException(myScan.nextLine(), myScan);
+        inputPrompt(null, "credit hours", null); creditHours = catchIntException(myScan.nextLine(), myScan);
+        addPersonnel(new Student(name, id, gpa, creditHours));
     }
 
+    // store staff information
     private void storeStaff(String name, String id, Scanner myScan) {
         String department, status;
-
-        System.out.print("     Department: "); department = myScan.nextLine();
-        department = checkData(myScan, department, "Department", 2, 4);
-        System.out.print("     Status, Enter P for Part Time, or Enter F for Full Time: "); status = myScan.nextLine();
-        status = checkData(myScan, status, "Status", 5, 6);
-        Staff staff = new Staff(name, id, department, status);
-        if(addPersonnel(staff)) System.out.println("\nStaff member added!\n");
+        inputPrompt(null, "department", null); department = myScan.nextLine();
+        department = checkData(myScan, department, "Department", null,2, 4);
+        inputPrompt(null, "status", null); status = myScan.nextLine();
+        status = checkData(myScan, status, "Status", null, 5, 6);
+        addPersonnel(new Staff(name, id, department, status));
     }
 
     @Override
     public void storeInfo(Scanner myScan, String type) {
-        String name, id;
+        // initial prompt
+        String name, id; System.out.println("\nEnter the " + type + " info: \n");
 
-        System.out.println("\nEnter the " + type + " info: \n");
-        if(!type.equals("Staff")) System.out.print("     Name of the " + type + ": ");
-        else System.out.print("     Name of the " + type + " member: ");  name = myScan.nextLine();
-        if(!type.equals("Staff")) System.out.print("     ID: ");
-        else System.out.print("     Enter the id: "); id = myScan.nextLine();
+        // stores name and id of user
+        inputPrompt(type, "name", null);
+        name = checkData(myScan, myScan.nextLine(), "Name", type, 0, 0);
 
+        inputPrompt(type, "id", null);
+        id = checkData(myScan, myScan.nextLine(), "Id", type, 0, 0);
+
+        // stores other information based on the type of person
         if(type.equals("Student")) storeStudent(name, id, myScan);
         else if(type.equals("Faculty")) storeFaculty(name, id, myScan);
         else storeStaff(name, id, myScan);

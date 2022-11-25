@@ -7,6 +7,6 @@ abstract class Employee extends Person {
     }
 
     public String getDepartment() {
-        return department;
+        return this.department;
     }
 }

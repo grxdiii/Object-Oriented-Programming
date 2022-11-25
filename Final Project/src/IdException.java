@@ -9,8 +9,13 @@ class IdException extends Exception {
         super(cause);
     }
 
+    public static void checkFormat(String id) throws IdException {
+        if(id.length() != 6 || !id.substring(0,1).matches("[a-zA-ZX]+") ||
+                !id.substring(2,5).matches("[0-9]+")) throw new IdException();
+    }
+
     @Override
     public String getMessage(){
-        return "Invalid ID format. Must be LetterLetterDigitDigitDigitDigit";
+        return "\tInvalid ID format. Must be LetterLetterDigitDigitDigitDigit\n";
     }
 }

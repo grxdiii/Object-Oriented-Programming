@@ -11,11 +11,11 @@ abstract class Person {
 
     public abstract void print();
     public String getFullName() {
-        return fullName;
+        return this.fullName;
     }
 
     public String getId() {
-        return id;
+        return this.id;
     }
 
     public void setType(String type) {

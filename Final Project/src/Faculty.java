@@ -8,14 +8,14 @@ class Faculty extends Employee {
     }
 
     public String getRank() {
-        return rank;
+        return this.rank;
     }
 
-    public void print() { // prints the faculty's info
-        System.out.println("\n     -------------------------------------------------------\n");
-        System.out.println("     " + super.getFullName() + "         " + super.getId() + "\n");
-        System.out.println("     " + super.getDepartment() + " Department, " + rank + "\n");
-        System.out.println("     -------------------------------------------------------");
+    public void print() {
+        System.out.println("\n\t-------------------------------------------------------");
+        System.out.println("\t" + super.getFullName() + "         " + super.getId());
+        System.out.println("\t" + super.getDepartment() + " Department, " + this.rank );
+        System.out.println("\t-------------------------------------------------------");
     }
 
 }

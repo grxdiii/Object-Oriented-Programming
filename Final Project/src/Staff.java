@@ -13,10 +13,10 @@ class Staff extends Employee {
     }
 
     public void print() { // prints the staff's info
-        System.out.println("\n     -------------------------------------------------------\n");
-        System.out.println("     " + super.getFullName() + "         " + super.getId() + "\n");
-        if(status.equals("F")) System.out.println("     " + super.getDepartment() + " Department, Full Time\n");
-        else System.out.println("     " + super.getDepartment() + " Department, Part Time\n");
-        System.out.println("     -------------------------------------------------------");
+        System.out.println("\n\t-------------------------------------------------------");
+        System.out.println("\t" + super.getFullName() + "\t" + super.getId());
+        if(status.equals("F")) System.out.println("\t" + super.getDepartment() + " Department, Full Time");
+        else System.out.println("\t" + super.getDepartment() + " Department, Part Time");
+        System.out.println("\t-------------------------------------------------------");
     }
 }
